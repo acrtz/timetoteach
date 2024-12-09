@@ -27,7 +27,7 @@ export default function Page() {
     <main>
       <Card className="w-[700px] max-w-[95vw] mt-12 mx-auto">
         <CardHeader>
-          <CardTitle>Create assignment or assessment</CardTitle>
+          <CardTitle>Create Assignment or Assessment</CardTitle>
           <CardDescription>
             Create a new assignment or assessment for your students.
           </CardDescription>
@@ -44,6 +44,7 @@ export default function Page() {
                     <FormControl>
                       <Textarea
                         placeholder="Describe the assignment or assessment in detail."
+                        className="min-h-40"
                         {...field}
                       />
                     </FormControl>
