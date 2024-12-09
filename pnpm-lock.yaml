@@ -78,7 +78,7 @@ importers:
         specifier: 19.0.0-rc-66855b96-20241106
         version: 19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106)
       react-hook-form:
-        specifier: ^7.53.2
+        specifier: ^7.54.0
         version: 7.54.0(react@19.0.0-rc-66855b96-20241106)
       stripe:
         specifier: ^17.3.1
