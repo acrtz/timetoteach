@@ -9,19 +9,19 @@ export default {
   ],
   theme: {
   	extend: {
-			fontSize: {
-				'2xs': '0.7',
-				'xs': '0.8rem',
-				'sm': '0.9rem',
-				'base': '1rem',
-				'lg': '1.125rem',
-				'xl': '1.25rem',
-				'2xl': '1.5rem',
-				'3xl': '1.875rem',
-				'4xl': '2.25rem',
-				'5xl': '3rem',
-				'6xl': '4rem'
-			},
+  		fontSize: {
+  			'2xs': '0.7',
+  			xs: '0.8rem',
+  			sm: '0.9rem',
+  			base: '1rem',
+  			lg: '1.125rem',
+  			xl: '1.25rem',
+  			'2xl': '1.5rem',
+  			'3xl': '1.875rem',
+  			'4xl': '2.25rem',
+  			'5xl': '3rem',
+  			'6xl': '4rem'
+  		},
   		animation: {
   			'spin-slow': 'spin 50s linear infinite',
   			'accordion-down': 'accordion-down 0.2s ease-out',
