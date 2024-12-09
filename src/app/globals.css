@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 95%; /* Softer light gray for the main background */
+    --foreground: 0 0% 12%; /* Dark text for strong contrast */
+    --card: 0 0% 97%; /* Light gray for cards */
+    --card-foreground: 0 0% 12%; /* Dark text for cards */
+    --popover: 0 0% 97%; /* Matches card background for consistency */
+    --popover-foreground: 0 0% 12%; /* Dark text for popovers */
+    --primary: 265 70% 50%; /* Vibrant purple for primary actions */
+    --primary-foreground: 0 0% 98%; /* White text on primary actions */
+    --secondary: 0 0% 90%; /* Slightly darker gray for secondary elements */
+    --secondary-foreground: 0 0% 12%; /* Dark text for secondary elements */
+    --muted: 0 0% 90%; /* Slightly darker muted background */
+    --muted-foreground: 0 0% 40%; /* Mid-gray for muted content */
+    --accent: 265 60% 50%; /* Slightly subdued purple for accents */
+    --accent-foreground: 0 0% 98%; /* White text for accents */
+    --destructive: 0 65% 45%; /* Red for destructive actions */
+    --destructive-foreground: 0 0% 98%; /* White text for destructive actions */
+    --border: 0 0% 85%; /* Darker light gray for borders */
+    --input: 0 0% 92%; /* Matches muted background for inputs */
+    --ring: 265 70% 50%; /* Purple ring for focus states */
+    --chart-1: 265 70% 50%; /* Consistent purple for charts */
+    --chart-2: 265 50% 45%; /* Slightly muted purple */
+    --chart-3: 160 60% 45%; /* Green for success metrics */
+    --chart-4: 30 80% 55%; /* Yellow for warnings */
+    --chart-5: 0 70% 55%; /* Red for errors */
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 92%; /* Slightly darker gray for sidebar background */
+    --sidebar-foreground: 0 0% 12%; /* Dark text for sidebar */
+    --sidebar-primary: 265 70% 50%; /* Purple for active items in the sidebar */
+    --sidebar-primary-foreground: 0 0% 98%; /* White text on active items */
+    --sidebar-accent: 0 0% 88%; /* Slightly darker gray accent */
+    --sidebar-accent-foreground: 0 0% 25%; /* Darker gray for accent text */
+    --sidebar-border: 0 0% 84%; /* Slightly darker border for sidebar */
+    --sidebar-ring: 265 70% 50%; /* Purple ring for sidebar focus states */
+  }
+
+  .dark {
+    --background: 240 5% 10%; /* Dark gray, softer on the eyes */
+    --foreground: 0 0% 98%; /* Bright white for contrast */
+    --card: 240 5% 12%; /* Slightly lighter dark gray for cards */
+    --card-foreground: 0 0% 98%; /* White text on cards */
+    --popover: 240 5% 12%; /* Matches card background for consistency */
+    --popover-foreground: 0 0% 98%; /* Consistent white foreground */
+    --primary: 271 91% 65%;
+    --primary-foreground: 0 0% 98%; /* White text on primary actions */
+    --secondary: 240 5% 20%; /* Darker gray for secondary elements */
+    --secondary-foreground: 0 0% 98%; /* White text for secondary elements */
+    --muted: 240 5% 14%; /* Subtle muted background */
+    --muted-foreground: 0 0% 80%; /* Soft gray text for muted content */
+    --accent: 265 60% 40%; /* Slightly subdued purple for accents */
+    --accent-foreground: 0 0% 98%; /* White text for accents */
+    --destructive: 0 65% 45%; /* Red for destructive actions */
+    --destructive-foreground: 0 0% 98%; /* White text for destructive actions */
+    --border: 240 4% 18%; /* Subtle borders that blend with the dark theme */
+    --input: 240 5% 12%; /* Matches card background for input fields */
+    --input: 0 0% 20%; /* Matches card background for input fields */
+    --ring: 265 70% 47%; /* Purple ring for focus states */
+    --chart-1: 265 70% 47%; /* Consistent purple for charts */
+    --chart-2: 265 50% 40%; /* Slightly muted purple */
+    --chart-3: 160 60% 45%; /* Green for success metrics */
+    --chart-4: 30 80% 55%; /* Yellow for warnings */
+    --chart-5: 0 70% 55%; /* Red for errors */
+    --radius: 0.5rem;
+    --sidebar-background: 240 5% 10%; /* Dark gray for sidebar */
+    --sidebar-foreground: 0 0% 98%; /* White text on sidebar */
+    --sidebar-primary: 265 70% 47%; /* Purple for active items in the sidebar */
+    --sidebar-primary-foreground: 0 0% 98%; /* White text on active items */
+    --sidebar-accent: 240 5% 18%; /* Subtle gray accent */
+    --sidebar-accent-foreground: 0 0% 90%; /* Soft white for accent text */
+    --sidebar-border: 240 4% 15%; /* Subtle border for sidebar */
+    --sidebar-ring: 265 70% 47%; /* Purple ring for sidebar focus states */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
