@@ -18,7 +18,7 @@ export default function Nav(props) {
   return (
     <div className="h-screen w-[400px] border-l bg-card p-8">
       <Draggable />
-      <SortableContext
+      {/* <SortableContext
         id={id}
         items={items}
         strategy={verticalListSortingStrategy}
@@ -28,14 +28,14 @@ export default function Nav(props) {
             <SortableItem key={id} id={id} />
           ))}
         </div>
-      </SortableContext>
+      </SortableContext> */}
     </div>
   );
 }
 
 function Draggable() {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: "unique-id",
+    id: "draggable",
   });
   const style = {
     transform: CSS.Translate.toString(transform),

@@ -53,9 +53,7 @@ const defaultAnnouncements = {
 export default function SortableDocument() {
   const [items, setItems] = useState({
     main: ["1", "2", "3"],
-    nav: ["4", "5", "6"],
-    container2: ["7", "8", "9"],
-    container3: [],
+    nav: ["a", "b", "c"],
   });
   const [activeId, setActiveId] = useState();
 
@@ -103,9 +101,20 @@ export default function SortableDocument() {
     const { id } = active;
     const { id: overId } = over;
 
+    console.log({ active, over });
+
+    if (id === "draggable") {
+      const sortable = over?.data?.current?.sortable;
+      console.log({ sortable });
+      // return;
+    }
+
     // Find the containers
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
+    if (activeContainer === "nav" && overContainer === "nav") {
+      return;
+    }
 
     if (
       !activeContainer ||
@@ -116,7 +125,6 @@ export default function SortableDocument() {
     }
 
     setItems((prev) => {
-      console.log({ activeContainer, overContainer });
       const activeItems = prev[activeContainer];
 
       if (overContainer === "main") {
@@ -149,6 +157,7 @@ export default function SortableDocument() {
             items[activeContainer][activeIndex],
             ...prev[overContainer].slice(newIndex, prev[overContainer].length),
           ],
+          nav: [...prev.nav],
         };
       }
 
@@ -157,6 +166,8 @@ export default function SortableDocument() {
   }
 
   function handleDragEnd(event) {
+    console.log("handleDragEnd");
+
     const { active, over } = event;
     const { id } = active;
     const { id: overId } = over;
