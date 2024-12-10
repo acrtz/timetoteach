@@ -1,36 +1,41 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useDraggable } from "@dnd-kit/core";
 
 export function Item(props) {
-  const { id } = props;
-
-  const style = {
-    width: "100%",
-    height: 50,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "1px solid black",
-    margin: "10px 0",
-    background: "white",
-  };
-
-  return <div style={style}>{id}</div>;
+  return <div>{props.children}</div>;
 }
 
 export default function SortableItem(props) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: props.id });
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: props.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Item id={props.id} />
+    <div ref={setNodeRef} {...attributes} {...listeners}>
+      <Item id={props.id} children={props.children} />
     </div>
+  );
+}
+
+export function Draggable(props) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: props.id,
+  });
+  const style = transform
+    ? {
+        transform: CSS.Translate.toString(transform),
+      }
+    : undefined;
+
+  return (
+    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      {props.children}
+    </button>
   );
 }

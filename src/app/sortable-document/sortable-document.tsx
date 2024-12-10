@@ -4,22 +4,17 @@ import React, { useState } from "react";
 import {
   DndContext,
   DragOverlay,
-  closestCorners,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
+  rectIntersection,
 } from "@dnd-kit/core";
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
-import { Item } from "./sortable-item";
 import Document from "./document";
 import Nav from "./nav";
-
-const wrapperStyle = {
-  display: "flex",
-  flexDirection: "row",
-};
+import { Item } from "./sortable-item";
 
 const defaultAnnouncements = {
   onDragStart(id) {
@@ -51,10 +46,12 @@ const defaultAnnouncements = {
 };
 
 export default function SortableDocument() {
-  const [items, setItems] = useState({
-    main: ["1", "2", "3"],
-    nav: ["a", "b", "c"],
-  });
+  const [items, setItems] = useState<{ id: string; type?: string }[]>([
+    { id: "1", type: "input" },
+    { id: "2", type: "header" },
+    { id: "3", type: "paragraph" },
+    { id: "end", type: "end" },
+  ]);
   const [activeId, setActiveId] = useState();
 
   const sensors = useSensors(
@@ -68,16 +65,22 @@ export default function SortableDocument() {
     <DndContext
       announcements={defaultAnnouncements}
       sensors={sensors}
-      collisionDetection={closestCorners}
+      collisionDetection={rectIntersection}
       onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
+      // onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
       <div className="w-[screen] flex ">
-        <Document id="main" items={items.main} />
-        <Nav id="nav" items={items.nav} />
+        <Document id="main" items={items} />
+        <Nav />
       </div>
-      <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+      <DragOverlay>
+        {activeId ? (
+          <Item id={activeId}>
+            <div className="bg-yellow-500 h-20 w-20">MOVING</div>
+          </Item>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 
@@ -96,105 +99,30 @@ export default function SortableDocument() {
     setActiveId(id);
   }
 
-  function handleDragOver(event) {
-    const { active, over, draggingRect } = event;
-    const { id } = active;
-    const { id: overId } = over;
-
-    console.log({ active, over });
-
-    if (id === "draggable") {
-      const sortable = over?.data?.current?.sortable;
-      console.log({ sortable });
-      // return;
-    }
-
-    // Find the containers
-    const activeContainer = findContainer(id);
-    const overContainer = findContainer(overId);
-    if (activeContainer === "nav" && overContainer === "nav") {
-      return;
-    }
-
-    if (
-      !activeContainer ||
-      !overContainer ||
-      activeContainer === overContainer
-    ) {
-      return;
-    }
-
-    setItems((prev) => {
-      const activeItems = prev[activeContainer];
-
-      if (overContainer === "main") {
-        const overItems = prev[overContainer];
-
-        // Find the indexes for the items
-        const activeIndex = activeItems.indexOf(id);
-        const overIndex = overItems.indexOf(overId);
-
-        let newIndex;
-        if (overId in prev) {
-          // We're at the main droppable of a container
-          newIndex = overItems.length + 1;
-        } else {
-          const isBelowLastItem = over && overIndex === overItems.length - 1; //&& draggingRect.offsetTop > over.rect.offsetTop + over.rect.height;
-
-          const modifier = isBelowLastItem ? 1 : 0;
-
-          newIndex =
-            overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
-        }
-
-        return {
-          ...prev,
-          [activeContainer]: [
-            ...prev[activeContainer].filter((item) => item !== active.id),
-          ],
-          [overContainer]: [
-            ...prev[overContainer].slice(0, newIndex),
-            items[activeContainer][activeIndex],
-            ...prev[overContainer].slice(newIndex, prev[overContainer].length),
-          ],
-          nav: [...prev.nav],
-        };
-      }
-
-      return prev;
-    });
-  }
-
   function handleDragEnd(event) {
-    console.log("handleDragEnd");
-
     const { active, over } = event;
-    const { id } = active;
-    const { id: overId } = over;
-
-    const activeContainer = findContainer(id);
-    const overContainer = findContainer(overId);
-
-    if (
-      !activeContainer ||
-      !overContainer ||
-      activeContainer !== overContainer
-    ) {
+    if (!over) {
       return;
     }
 
-    const activeIndex = items[activeContainer].indexOf(active.id);
-    const overIndex = items[overContainer].indexOf(overId);
+    const activeIndex = items.findIndex((item) => item.id === active.id);
+    const overIndex = items.findIndex((item) => item.id === over.id);
+
+    if (overIndex === -1) {
+      return;
+    }
 
     if (activeIndex !== overIndex) {
-      setItems((items) => ({
-        ...items,
-        [overContainer]: arrayMove(
-          items[overContainer],
-          activeIndex,
-          overIndex
-        ),
-      }));
+      setItems((items) => {
+        console.log("before", items);
+        const newItems = [
+          ...items.slice(0, overIndex),
+          { id: `${items.length + 1}` },
+          ...items.slice(overIndex),
+        ];
+        console.log("after", newItems);
+        return newItems;
+      });
     }
 
     setActiveId(null);
