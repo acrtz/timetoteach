@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DocumentBuilder from "./document-builder";
+import DocumentBuilder from "@/components/document-builder";
 
 export default function Page() {
   const [mounted, setMounted] = useState(false);

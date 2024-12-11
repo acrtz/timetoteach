@@ -1,19 +1,7 @@
+import {BlockEnum, BlockType} from "@/types";
 import { v4 as uuidv4 } from "uuid";
 
-export enum BlockEnum {
-  title = "title",
-  subtitle = "subtitle",
-  paragraph = "paragraph",
-  spacer = "spacer",
-  separator = "separator",
-  text = "text",
-  textarea = "textarea",
-  number = "number",
-  date = "date",
-  list = "list",
-  checkbox = "checkbox",
-  checkboxgroup = "checkboxgroup",
-};
+
 
 export function createNewBlock(type: BlockEnum) {
   const block = {
@@ -24,104 +12,6 @@ export function createNewBlock(type: BlockEnum) {
   return block;
 }
 
-export interface TitleBlock {
-  id?: string;
-  type: BlockEnum.title;
-  value: string;
-  align?: "left" | "center" | "right";
-}
-
-export interface SubtitleBlock {
-  id?: string;
-  type: BlockEnum.subtitle;
-  value: string;
-  align?: "left" | "center" | "right";
-}
-
-export interface ParagraphBlock {
-  id?: string;
-  type: BlockEnum.paragraph;
-  value: string;
-}
-
-export interface SpacerBlock {
-  id?: string;
-  type: BlockEnum.spacer;
-  height: number;
-}
-
-export interface SeparatorBlock {
-  id?: string;
-  type: BlockEnum.separator;
-}
-
-export interface TextBlock {
-  id?: string;
-  type: BlockEnum.text;
-  label: string;
-  placeholder: string;
-  helperText: string;
-  required: boolean;
-}
-
-export interface TextareaBlock {
-  id?: string;
-  type: BlockEnum.textarea;
-  label: string;
-  placeholder: string;
-  helperText: string;
-  required: boolean;
-  rows: number;
-}
-
-export interface NumberBlock {
-  id?: string;
-  type: BlockEnum.number;
-  label: string;
-  placeholder: string;
-  helperText: string;
-  required: boolean;
-  min: number | null;
-  max: number | null;
-}
-
-export interface DateBlock {
-  id?: string;
-  type: BlockEnum.date;
-  label: string;
-  helperText: string;
-  required: boolean;
-  min: Date | null;
-  max: Date | null;
-}
-
-export interface ListBlock {
-  id?: string;
-  type: BlockEnum.list;
-  items: string[];
-  variant: "ordered" | "unordered";
-}
-
-export interface CheckboxBlock {
-  id?: string;
-  type: BlockEnum.checkbox;
-  label: string;
-  helperText: string;
-  required: boolean;
-}
-
-export interface CheckboxGroupBlock {
-  id?: string;
-  type: BlockEnum.checkboxgroup;
-  label: string;
-  helperText: string;
-  required: boolean;
-  options: string[];
-  multiple: boolean;
-  layout: "vertical" | "horizontal";
-}
-
-export type BlockType = TitleBlock | SubtitleBlock | ParagraphBlock | SpacerBlock | SeparatorBlock | TextBlock | TextareaBlock | NumberBlock | DateBlock | ListBlock | CheckboxBlock | CheckboxGroupBlock;
 
 export const defaultBlockValues: Record<BlockEnum, BlockType> = {
   title: {

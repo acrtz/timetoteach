@@ -14,7 +14,8 @@ import {
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import Document from "./document";
 import Nav from "./nav";
-import { BlockEnum, BlockType, createNewBlock } from "@/lib/blocks";
+import { BlockEnum, BlockType } from "@/types";
+import { createNewBlock } from "@/lib/blocks";
 
 export default function DocumentBuilder() {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
