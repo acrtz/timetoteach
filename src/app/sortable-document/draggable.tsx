@@ -1,14 +1,9 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 
-export function Item(props) {
-  return <div>{props.children}</div>;
-}
-
 export default function Draggable(props) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
-    data: props.metaData,
   });
 
   const style = transform
@@ -19,13 +14,16 @@ export default function Draggable(props) {
 
   return (
     <div
+      id={props.id}
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
-      className={`bg-card ${transform ? "opacity-50 border" : ""}`}
+      className={`bg-card hover:bg-violet-50 rounded ${
+        transform ? "opacity-50 border" : ""
+      } ${props.className}`}
     >
-      <Item id={props.id} children={props.children} />
+      {props.children}
     </div>
   );
 }
