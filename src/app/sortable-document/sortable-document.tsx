@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import {
   DndContext,
-  DragOverlay,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -14,45 +13,18 @@ import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
 import Document from "./document";
 import Nav from "./nav";
-import { Item } from "./sortable-item";
-
-const defaultAnnouncements = {
-  onDragStart(id) {
-    console.log(`Picked up draggable item ${id}.`);
-  },
-  onDragOver(id, overId) {
-    if (overId) {
-      console.log(
-        `Draggable item ${id} was moved over droppable area ${overId}.`
-      );
-      return;
-    }
-
-    console.log(`Draggable item ${id} is no longer over a droppable area.`);
-  },
-  onDragEnd(id, overId) {
-    if (overId) {
-      console.log(
-        `Draggable item ${id} was dropped over droppable area ${overId}`
-      );
-      return;
-    }
-
-    console.log(`Draggable item ${id} was dropped.`);
-  },
-  onDragCancel(id) {
-    console.log(`Dragging was cancelled. Draggable item ${id} was dropped.`);
-  },
-};
 
 export default function SortableDocument() {
   const [items, setItems] = useState<{ id: string; type?: string }[]>([
-    { id: "1", type: "input" },
-    { id: "2", type: "header" },
-    { id: "3", type: "paragraph" },
-    { id: "end", type: "end" },
+    { id: "1_x493hjfie1", type: "input" },
+    { id: "2_xxxxxxxxxxxx", type: "header" },
+    { id: "3_alajdsad3", type: "paragraph" },
+    { id: "4_alajdsad3", type: "paragraph" },
+    { id: "5_alajdsad3", type: "paragraph" },
+    { id: "6_alajdsad3", type: "paragraph" },
+    // { id: "end", type: "end" },
   ]);
-  const [activeId, setActiveId] = useState();
+  const [dropAbove, setDropAbove] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -60,43 +32,32 @@ export default function SortableDocument() {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
   return (
     <DndContext
-      announcements={defaultAnnouncements}
       sensors={sensors}
       collisionDetection={rectIntersection}
-      onDragStart={handleDragStart}
-      // onDragOver={handleDragOver}
+      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
       <div className="w-[screen] flex ">
-        <Document id="main" items={items} />
+        <Document id="main" items={items} dropAbove={dropAbove} />
         <Nav />
       </div>
-      <DragOverlay>
-        {activeId ? (
-          <Item id={activeId}>
-            <div className="bg-yellow-500 h-20 w-20">MOVING</div>
-          </Item>
-        ) : null}
-      </DragOverlay>
     </DndContext>
   );
 
-  function findContainer(id) {
-    if (id in items) {
-      return id;
+  function handleDragOver(event) {
+    const { active, over } = event;
+    if (!over) {
+      return;
     }
+    const activeIndex = items.findIndex((item) => item.id === active.id);
+    const overIndex = items.findIndex((item) => item.id === over.id);
+    const _dropAbove = activeIndex < 0 || overIndex < activeIndex;
 
-    return Object.keys(items).find((key) => items[key].includes(id));
-  }
-
-  function handleDragStart(event) {
-    const { active } = event;
-    const { id } = active;
-
-    setActiveId(id);
+    if (_dropAbove !== dropAbove) {
+      setDropAbove(_dropAbove);
+    }
   }
 
   function handleDragEnd(event) {
@@ -108,23 +69,24 @@ export default function SortableDocument() {
     const activeIndex = items.findIndex((item) => item.id === active.id);
     const overIndex = items.findIndex((item) => item.id === over.id);
 
-    if (overIndex === -1) {
-      return;
+    const newItems = [...items];
+    const element = newItems[activeIndex];
+
+    if (activeIndex >= 0) {
+      newItems.splice(activeIndex, 1);
+      if (overIndex >= 0) {
+        newItems.splice(overIndex, 0, element);
+      } else {
+        newItems.push(element);
+      }
+    } else {
+      if (overIndex >= 0) {
+        newItems.splice(overIndex, 0, { id: `${items.length + 1}` });
+      } else {
+        newItems.push({ id: `${items.length + 1}` });
+      }
     }
 
-    if (activeIndex !== overIndex) {
-      setItems((items) => {
-        console.log("before", items);
-        const newItems = [
-          ...items.slice(0, overIndex),
-          { id: `${items.length + 1}` },
-          ...items.slice(overIndex),
-        ];
-        console.log("after", newItems);
-        return newItems;
-      });
-    }
-
-    setActiveId(null);
+    setItems(newItems);
   }
 }
