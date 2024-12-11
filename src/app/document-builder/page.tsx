@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import SortableDocument from "./sortable-document";
+import DocumentBuilder from "./document-builder";
 
 export default function Page() {
   const [mounted, setMounted] = useState(false);
@@ -10,5 +10,5 @@ export default function Page() {
     setMounted(true);
   }, []);
 
-  return mounted ? <SortableDocument /> : null;
+  return mounted ? <DocumentBuilder /> : null;
 }
