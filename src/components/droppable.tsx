@@ -1,16 +1,24 @@
 import { cn } from "@/lib/utils";
 import { useDroppable } from "@dnd-kit/core";
+import { Pencil, Trash } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 export function Droppable({
   id,
   className,
   dropAbove,
   children,
+  deleteBlock,
+  onEdit,
 }: {
   id: string;
   className?: string;
   dropAbove: boolean;
   children: React.ReactNode;
+  deleteBlock: (id: string) => void;
+  onEdit: () => void;
 }) {
   const { isOver, setNodeRef, ...rest } = useDroppable({ id });
 
@@ -22,9 +30,44 @@ export function Droppable({
       <div
         id={id}
         ref={setNodeRef}
-        className={cn("border rounded-lg p-4 bg-background my-2", className)}
+        className={cn(
+          "border rounded-lg p-4 bg-background my-2 relative overflow-hidden touch-none",
+          className
+        )}
       >
         {children}
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-card opacity-0 hover:opacity-90 flex items-center justify-center gap-2 z-50">
+          Drag to move
+          <div
+            className="absolute right-0 top-0 bottom-0 items-center gap-2"
+            data-no-dnd="true"
+          >
+            <div
+              className="h-1/2 bg-blue-500 hover:bg-blue-400 w-20 flex items-center justify-center"
+              onClick={onEdit}
+            >
+              <Pencil className="w-6 h-6" />
+            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <div className="h-1/2 bg-red-500 hover:bg-red-400 w-20 flex items-center justify-center">
+                  <Trash className="w-6 h-6" />
+                </div>
+              </PopoverTrigger>
+              <PopoverContent className="bg-background">
+                <div>Are you sure you want to delete this block?</div>
+                <div className="flex items-center justify-between mt-6 gap-2">
+                  <PopoverClose asChild>
+                    <Button variant="secondary">Cancel</Button>
+                  </PopoverClose>
+                  <Button variant="destructive" onClick={() => deleteBlock(id)}>
+                    Delete
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
       </div>
       <Placeholder isVisible={isBeingDragged && !dropAbove} />
     </>

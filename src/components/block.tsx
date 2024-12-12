@@ -1,8 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { BlockEnum, BlockType } from "@/types";
-import { Checkbox } from "@radix-ui/react-checkbox";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "./ui/label";
+import { Checkbox } from "./ui/checkbox";
 
 const BlockWrapper = ({
   title,
@@ -42,7 +42,7 @@ export default function Block({ block }: { block: BlockType }) {
     case BlockEnum.spacer:
       return (
         <BlockWrapper title="Spacer">
-          <div className=" text-muted-foreground text-center">
+          <div className="text-muted-foreground text-center py-2">
             Height: {block.height}px
           </div>
         </BlockWrapper>
@@ -50,7 +50,9 @@ export default function Block({ block }: { block: BlockType }) {
     case BlockEnum.separator:
       return (
         <BlockWrapper title="Separator">
-          <hr />
+          <div className="py-6 w-full">
+            <hr />
+          </div>
         </BlockWrapper>
       );
     case BlockEnum.list:

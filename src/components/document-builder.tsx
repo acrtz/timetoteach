@@ -20,13 +20,20 @@ import { createNewBlock } from "@/lib/blocks";
 export default function DocumentBuilder() {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
   const [dropAbove, setDropAbove] = useState(false);
+  const [selectedBlock, setSelectedBlock] = useState<BlockType | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  function deleteBlock(id: string) {
+    setBlocks((prev) => prev.filter((block) => block.id !== id));
+  }
 
   return (
     <DndContext
@@ -36,8 +43,16 @@ export default function DocumentBuilder() {
       onDragEnd={handleDragEnd}
     >
       <div className="w-screen flex ">
-        <Document blocks={blocks} dropAbove={dropAbove} />
-        <Nav />
+        <Document
+          blocks={blocks}
+          dropAbove={dropAbove}
+          deleteBlock={deleteBlock}
+          setSelectedBlock={setSelectedBlock}
+        />
+        <Nav
+          selectedBlock={selectedBlock}
+          setSelectedBlock={setSelectedBlock}
+        />
       </div>
     </DndContext>
   );

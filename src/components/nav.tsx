@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Draggable from "./draggable";
 import {
   BetweenHorizonalStart,
@@ -14,31 +14,44 @@ import {
   TextSelect,
   Type,
 } from "lucide-react";
-import { BlockEnum } from "@/types";
+import { BlockEnum, BlockType } from "@/types";
+import BlockSettings from "./block-settings";
 
-export default function Nav() {
+export default function Nav({
+  selectedBlock,
+  setSelectedBlock,
+}: {
+  selectedBlock: BlockType | null;
+  setSelectedBlock: (block: BlockType) => void;
+}) {
   return (
     <div className="h-screen w-[350px] border-l bg-card p-8 flex flex-col gap-4">
-      <div className="text-sm">Draggable Building Blocks</div>
-      {groups.map((group) => (
-        <div key={group.group} className="grid grid-cols-2 gap-4">
-          <h2 className="text-muted-foreground text-sm col-span-2">
-            {group.group}
-          </h2>
-          {group.elements.map((element) => (
-            <Draggable
-              id={element.id}
-              key={element.id}
-              className="flex flex-col justify-center items-center border rounded-lg p-4 gap-2 text-center"
-            >
-              <element.icon className="text-muted-foreground" />
-              <div className="text-sm text-muted-foreground">
-                {element.label}
-              </div>
-            </Draggable>
+      {selectedBlock ? (
+        <BlockSettings block={selectedBlock} />
+      ) : (
+        <>
+          <div className="text-sm">Draggable Building Blocks</div>
+          {groups.map((group) => (
+            <div key={group.group} className="grid grid-cols-2 gap-4">
+              <h2 className="text-muted-foreground text-sm col-span-2">
+                {group.group}
+              </h2>
+              {group.elements.map((element) => (
+                <Draggable
+                  id={element.id}
+                  key={element.id}
+                  className="flex flex-col justify-center items-center border rounded-lg p-4 gap-2 text-center"
+                >
+                  <element.icon className="text-muted-foreground" />
+                  <div className="text-sm text-muted-foreground">
+                    {element.label}
+                  </div>
+                </Draggable>
+              ))}
+            </div>
           ))}
-        </div>
-      ))}
+        </>
+      )}
     </div>
   );
 }

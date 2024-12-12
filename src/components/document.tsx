@@ -9,9 +9,13 @@ import Block from "./block";
 export default function Document({
   blocks,
   dropAbove,
+  deleteBlock,
+  setSelectedBlock,
 }: {
   blocks: BlockType[];
   dropAbove: boolean;
+  deleteBlock: (id: string) => void;
+  setSelectedBlock: (block: BlockType) => void;
 }) {
   return (
     <main className="w-[calc(100vw-350px)] h-screen overflow-y-scroll overflow-x-hidden">
@@ -23,6 +27,8 @@ export default function Document({
                 id={block.id as string}
                 key={block.id}
                 dropAbove={dropAbove}
+                deleteBlock={deleteBlock}
+                onEdit={() => setSelectedBlock(block)}
               >
                 <Block block={block} />
               </Droppable>
