@@ -36,6 +36,11 @@ export const defaultBlockValues: Record<BlockEnum, BlockType> = {
   separator: {
     type: BlockEnum.separator,
   },
+  math: {
+    type: BlockEnum.math,
+    value: "\\pm\\sqrt{a^2 + b^2}",
+    align: "center",
+  },
   text: {
     type: BlockEnum.text,
     label: "Input label",

@@ -11,45 +11,51 @@ export enum BlockEnum {
   list = "list",
   checkbox = "checkbox",
   checkboxgroup = "checkboxgroup",
+  math = "math",
 };
 
-type ListVariant = "ordered" | "unordered";
-type GroupLayout = "vertical" | "horizontal"
-type Align = "left" | "center" | "right"
+export type ListVariant = "ordered" | "unordered";
+export type GroupLayout = "vertical" | "horizontal";
+export type Align = "left" | "center" | "right";
 
-export interface BT<T extends BlockEnum> {
+export interface BlockTemplate<T extends BlockEnum> {
   id?: string;
   type: T;
 }
 
-export interface TitleBlock extends BT<BlockEnum.title> {
+export interface TTitleBlock extends BlockTemplate<BlockEnum.title> {
   value: string;
   align?: Align;
 }
 
-export interface SubtitleBlock extends BT<BlockEnum.subtitle> {
+export interface TMathBlock extends BlockTemplate<BlockEnum.math> {
   value: string;
   align?: Align;
 }
 
-export interface ParagraphBlock extends BT<BlockEnum.paragraph> {
+export interface TSubtitleBlock extends BlockTemplate<BlockEnum.subtitle> {
+  value: string;
+  align?: Align;
+}
+
+export interface TParagraphBlock extends BlockTemplate<BlockEnum.paragraph> {
   value: string;
 }
 
-export interface SpacerBlock extends BT<BlockEnum.spacer> {
+export interface TSpacerBlock extends BlockTemplate<BlockEnum.spacer> {
   height: number;
 }
 
-export type SeparatorBlock = BT<BlockEnum.separator>;
+export type TSeparatorBlock = BlockTemplate<BlockEnum.separator>;
 
-export interface TextBlock extends BT<BlockEnum.text> {
+export interface TTextBlock extends BlockTemplate<BlockEnum.text> {
   label: string;
   placeholder: string;
   helperText: string;
   required: boolean;
 }
 
-export interface TextareaBlock extends BT<BlockEnum.textarea> {
+export interface TTextareaBlock extends BlockTemplate<BlockEnum.textarea> {
   label: string;
   placeholder: string;
   helperText: string;
@@ -57,7 +63,7 @@ export interface TextareaBlock extends BT<BlockEnum.textarea> {
   rows: number;
 }
 
-export interface NumberBlock extends BT<BlockEnum.number> {
+export interface TNumberBlock extends BlockTemplate<BlockEnum.number> {
   label: string;
   placeholder: string;
   helperText: string;
@@ -66,7 +72,7 @@ export interface NumberBlock extends BT<BlockEnum.number> {
   max: number | null;
 }
 
-export interface DateBlock extends BT<BlockEnum.date> {
+export interface TDateBlock extends BlockTemplate<BlockEnum.date> {
   label: string;
   helperText: string;
   required: boolean;
@@ -74,18 +80,18 @@ export interface DateBlock extends BT<BlockEnum.date> {
   max: Date | null;
 }
 
-export interface ListBlock extends BT<BlockEnum.list> {
+export interface TListBlock extends BlockTemplate<BlockEnum.list> {
   items: string[];
   variant: ListVariant;
 }
 
-export interface CheckboxBlock extends BT<BlockEnum.checkbox> {
+export interface TCheckboxBlock extends BlockTemplate<BlockEnum.checkbox> {
   label: string;
   helperText: string;
   required: boolean;
 }
 
-export interface CheckboxGroupBlock extends BT<BlockEnum.checkboxgroup> {
+export interface TCheckboxGroupBlock extends BlockTemplate<BlockEnum.checkboxgroup> {
   label: string;
   helperText: string;
   required: boolean;
@@ -94,4 +100,4 @@ export interface CheckboxGroupBlock extends BT<BlockEnum.checkboxgroup> {
   layout: GroupLayout;
 }
 
-export type BlockType = TitleBlock | SubtitleBlock | ParagraphBlock | SpacerBlock | SeparatorBlock | TextBlock | TextareaBlock | NumberBlock | DateBlock | ListBlock | CheckboxBlock | CheckboxGroupBlock;
+export type BlockType = TTitleBlock | TSubtitleBlock | TParagraphBlock | TSpacerBlock | TSeparatorBlock | TTextBlock | TTextareaBlock | TNumberBlock | TDateBlock | TListBlock | TCheckboxBlock | TCheckboxGroupBlock | TMathBlock;

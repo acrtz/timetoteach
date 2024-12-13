@@ -9,6 +9,7 @@ import {
   List,
   ListTodo,
   SeparatorHorizontal,
+  Sigma,
   SquareCheck,
   Text,
   TextSelect,
@@ -25,9 +26,15 @@ export default function Nav({
   setSelectedBlock: (block: BlockType) => void;
 }) {
   return (
-    <div className="h-screen w-[350px] border-l bg-card p-8 flex flex-col gap-4">
+    <div
+      className="h-screen w-[350px] border-l bg-card p-8 flex flex-col gap-4 block-nav"
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+    >
       {selectedBlock ? (
-        <BlockSettings block={selectedBlock} />
+        <BlockSettings block={selectedBlock} onChange={setSelectedBlock} />
       ) : (
         <>
           <div className="text-sm">Draggable Building Blocks</div>
@@ -89,6 +96,11 @@ const groups = [
         id: BlockEnum.separator,
         label: "Separator",
         icon: SeparatorHorizontal,
+      },
+      {
+        id: BlockEnum.math,
+        label: "Math",
+        icon: Sigma,
       },
     ],
   },

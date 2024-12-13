@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Draggable from "./draggable";
 import { Droppable, DroppableCatchAll } from "./droppable";
@@ -19,7 +17,10 @@ export default function Document({
 }) {
   return (
     <main className="w-[calc(100vw-350px)] h-screen overflow-y-scroll overflow-x-hidden">
-      <div className="p-6 border bg-card rounded-xl w-[1000px] max-w-[90%] mx-auto my-12">
+      <div
+        className="p-6 border bg-card rounded-xl w-[1000px] max-w-[90%] mx-auto my-12"
+        id="pageprint"
+      >
         <DroppableCatchAll>
           {blocks.map((block) => (
             <Draggable id={block.id as string} key={block.id}>

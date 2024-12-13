@@ -3,6 +3,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { BlockEnum, BlockType } from "@/types";
 import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
+import { MathBlock } from "./math-block";
 
 const BlockWrapper = ({
   title,
@@ -118,6 +119,12 @@ export default function Block({ block }: { block: BlockType }) {
               </div>
             ))}
           </div>
+        </BlockWrapper>
+      );
+    case BlockEnum.math:
+      return (
+        <BlockWrapper title="Math">
+          <MathBlock block={block} />
         </BlockWrapper>
       );
     default:
