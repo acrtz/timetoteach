@@ -36,7 +36,7 @@ export function Droppable({
         )}
       >
         {children}
-        <div className="absolute top-0 left-0 right-0 bottom-0 bg-card opacity-0 hover:opacity-90 flex items-center justify-center gap-2 z-50">
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-card opacity-0 hover:opacity-70 active:opacity-0 flex items-center justify-center gap-2">
           Drag to move
           <div
             className="absolute right-0 top-0 bottom-0 items-center gap-2"

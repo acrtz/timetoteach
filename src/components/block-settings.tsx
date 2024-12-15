@@ -11,6 +11,7 @@ import {
 } from "./ui/select";
 import { Checkbox } from "./ui/checkbox";
 import { Textarea } from "./ui/textarea";
+import { X } from "lucide-react";
 
 const alignOptions = ["left", "center", "right"];
 const listVariants = ["ordered", "unordered"];
@@ -18,10 +19,10 @@ const layoutOptions = ["vertical", "horizontal"];
 
 export default function BlockSettings({
   block,
-  onChange,
+  onClose,
 }: {
   block: BlockType;
-  onChange: (updatedBlock: BlockType) => void;
+  onClose: () => void;
 }) {
   const settings = useMemo(() => {
     switch (block.type) {
@@ -367,6 +368,7 @@ export default function BlockSettings({
 
   return (
     <div className="space-y-4 p-4">
+      <X className="w-4 h-4 cursor-pointer" onClick={onClose} />
       <div className="text-sm font-medium">Block Settings</div>
       {settings}
     </div>

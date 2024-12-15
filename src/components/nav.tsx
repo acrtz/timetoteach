@@ -21,22 +21,43 @@ import BlockSettings from "./block-settings";
 export default function Nav({
   selectedBlock,
   setSelectedBlock,
+  setView,
+  view,
 }: {
   selectedBlock: BlockType | null;
-  setSelectedBlock: (block: BlockType) => void;
+  setSelectedBlock: (block: BlockType | null) => void;
+  view: "editor" | "pdf";
+  setView: (view: "editor" | "pdf") => void;
 }) {
   return (
     <div
-      className="h-screen w-[350px] border-l bg-card p-8 flex flex-col gap-4 block-nav"
+      className="h-screen w-[350px] border-l bg-card p-8 flex flex-col gap-4 block-nav overflow-y-scroll"
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
       }}
     >
       {selectedBlock ? (
-        <BlockSettings block={selectedBlock} onChange={setSelectedBlock} />
+        <BlockSettings
+          block={selectedBlock}
+          onClose={() => setSelectedBlock(null)}
+        />
       ) : (
         <>
+          <div className="p-2 border-border shadow flex mx-auto bg-background rounded-full gap-2">
+            <div
+              className="w-32 h-10 flex items-center justify-center bg-card border rounded-full"
+              onClick={() => setView("editor")}
+            >
+              Edit
+            </div>
+            <div
+              className="w-32 h-10 flex items-center justify-center bg-card border rounded-full"
+              onClick={() => setView("pdf")}
+            >
+              Preview
+            </div>
+          </div>
           <div className="text-sm">Draggable Building Blocks</div>
           {groups.map((group) => (
             <div key={group.group} className="grid grid-cols-2 gap-4">

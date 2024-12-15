@@ -17,89 +17,117 @@ import Nav from "./nav";
 import { BlockEnum, BlockType } from "@/types";
 import { createNewBlock } from "@/lib/blocks";
 import PdfView from "./pdf";
-import { Button } from "./ui/button";
 
 export default function DocumentBuilder() {
   const [blocks, setBlocks] = useState<BlockType[]>([
     {
+      id: "1",
       type: "title",
       value: "AP Chemistry Assignment: Atomic Theory and Structure of Atoms",
       align: "center",
     },
-    { type: "spacer", height: 20 },
+    { id: "12", type: "spacer", height: 20 },
     {
+      id: "13",
       type: "subtitle",
       value: "Section 1: Atomic Theory Overview",
       align: "left",
     },
     {
+      id: "14",
       type: "paragraph",
       value:
         "Atomic theory explains the nature of matter by stating that matter is composed of discrete units called atoms. This section will introduce you to the structure of atoms, electron configurations, periodic trends, and Coulomb’s law.",
     },
-    { type: "spacer", height: 20 },
-    { type: "subtitle", value: "Section 2: Structure of Atoms", align: "left" },
+    { id: "15", type: "spacer", height: 20 },
     {
+      id: "16",
+      type: "subtitle",
+      value: "Section 2: Structure of Atoms",
+      align: "left",
+    },
+    {
+      id: "17",
       type: "paragraph",
       value:
         "Atoms consist of protons, neutrons, and electrons. The nucleus contains protons and neutrons, while electrons orbit around the nucleus in electron clouds.",
     },
-    { type: "math", value: "Z = N + P", align: "center" },
+    { id: "18", type: "math", value: "Z = N + P", align: "center" },
     {
+      id: "19",
       type: "paragraph",
       value:
         "Where Z is the atomic number, N is the number of neutrons, and P is the number of protons.",
     },
-    { type: "spacer", height: 20 },
+    { id: "20", type: "spacer", height: 20 },
     {
+      id: "21",
       type: "subtitle",
       value: "Section 3: Electron Configurations",
       align: "left",
     },
     {
+      id: "22",
       type: "paragraph",
       value:
         "Electron configurations describe the arrangement of electrons in an atom. Understanding these configurations is essential for predicting chemical behavior.",
     },
     {
+      id: "23",
       type: "text",
       label: "Write the electron configuration for Oxygen (O)",
       placeholder: "Enter your answer",
       helperText: "Use the format: 1s² 2s² 2p⁴",
       required: true,
     },
-    { type: "spacer", height: 20 },
-    { type: "subtitle", value: "Section 4: Periodic Trends", align: "left" },
+    { id: "24", type: "spacer", height: 20 },
     {
+      id: "25",
+      type: "subtitle",
+      value: "Section 4: Periodic Trends",
+      align: "left",
+    },
+    {
+      id: "26",
       type: "paragraph",
       value:
         "Periodic trends refer to patterns in the properties of elements across the periodic table. Important trends include atomic radius, electronegativity, and ionization energy.",
     },
     {
+      id: "27",
       type: "list",
       items: ["Atomic Radius", "Electronegativity", "Ionization Energy"],
       variant: "unordered",
     },
-    { type: "spacer", height: 20 },
-    { type: "subtitle", value: "Section 5: Coulomb’s Law", align: "left" },
+    { id: "28", type: "spacer", height: 20 },
     {
+      id: "29",
+      type: "subtitle",
+      value: "Section 5: Coulomb’s Law",
+      align: "left",
+    },
+    {
+      id: "30",
       type: "paragraph",
       value:
         "Coulomb’s Law describes the force between two charged particles. It states that the force is proportional to the product of the charges and inversely proportional to the square of the distance between them.",
     },
-    { type: "math", value: "\\pm\\sqrt{a^2 + b^2}", align: "center" },
+    { id: "31", type: "math", value: "\\pm\\sqrt{a^2 + b^2}", align: "center" },
     {
+      id: "32",
       type: "paragraph",
       value:
         "Where F is the force between the charges, k is Coulomb's constant, q1 and q2 are the amounts of the charges, and r is the distance between them.",
     },
-    { type: "spacer", height: 20 },
+    { id: "33", type: "spacer", height: 20 },
     {
+      id: "34",
       type: "subtitle",
       value: "Section 6: Reflection Questions",
       align: "left",
     },
     {
+      id: "35",
       type: "textarea",
       label: "Discuss how periodic trends affect chemical reactivity.",
       placeholder: "Type your explanation here",
@@ -108,6 +136,7 @@ export default function DocumentBuilder() {
       rows: 3,
     },
     {
+      id: "36",
       type: "checkbox",
       label: "I have completed all sections of this assignment.",
       helperText: "Check if complete.",
@@ -159,32 +188,24 @@ export default function DocumentBuilder() {
       onDragEnd={handleDragEnd}
     >
       <div className="w-screen flex">
-        {view === "editor" ? (
-          <>
-            <div className="flex flex-col">
-              <div className="flex justify-center">
-                <Button onClick={() => setView("editor")}>Editor</Button>
-                <Button onClick={() => setView("pdf")}>PDF</Button>
-              </div>
-
-              <Document
-                blocks={blocks}
-                dropAbove={dropAbove}
-                deleteBlock={deleteBlock}
-                setSelectedBlock={setSelectedBlock}
-              />
-            </div>
-            <Nav
-              selectedBlock={selectedBlock}
+        <main className="w-[calc(100vw-350px)] h-screen overflow-y-scroll overflow-x-hidden">
+          {view === "editor" ? (
+            <Document
+              blocks={blocks}
+              dropAbove={dropAbove}
+              deleteBlock={deleteBlock}
               setSelectedBlock={setSelectedBlock}
             />
-          </>
-        ) : (
-          <div className="flex flex-col w-[calc(100vw-350px)]">
+          ) : (
             <PdfView schema={blocks} />
-            <Button onClick={() => setView("editor")}>Editor</Button>
-          </div>
-        )}
+          )}
+        </main>
+        <Nav
+          setView={setView}
+          view={view}
+          selectedBlock={selectedBlock}
+          setSelectedBlock={setSelectedBlock}
+        />
       </div>
     </DndContext>
   );

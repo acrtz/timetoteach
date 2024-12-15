@@ -16,27 +16,25 @@ export default function Document({
   setSelectedBlock: (block: BlockType) => void;
 }) {
   return (
-    <main className="w-[calc(100vw-350px)] h-screen overflow-y-scroll overflow-x-hidden">
-      <div
-        className="p-6 border bg-card rounded-xl w-[1000px] max-w-[90%] mx-auto my-12"
-        id="pageprint"
-      >
-        <DroppableCatchAll>
-          {blocks.map((block) => (
-            <Draggable id={block.id as string} key={block.id}>
-              <Droppable
-                id={block.id as string}
-                key={block.id}
-                dropAbove={dropAbove}
-                deleteBlock={deleteBlock}
-                onEdit={() => setSelectedBlock(block)}
-              >
-                <Block block={block} />
-              </Droppable>
-            </Draggable>
-          ))}
-        </DroppableCatchAll>
-      </div>
-    </main>
+    <div
+      className="p-6 border bg-card rounded-xl w-[1000px] max-w-[90%] mx-auto my-12"
+      id="pageprint"
+    >
+      <DroppableCatchAll>
+        {blocks.map((block) => (
+          <Draggable id={block.id as string} key={block.id}>
+            <Droppable
+              id={block.id as string}
+              key={block.id}
+              dropAbove={dropAbove}
+              deleteBlock={deleteBlock}
+              onEdit={() => setSelectedBlock(block)}
+            >
+              <Block block={block} />
+            </Droppable>
+          </Draggable>
+        ))}
+      </DroppableCatchAll>
+    </div>
   );
 }

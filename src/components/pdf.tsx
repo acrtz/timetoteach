@@ -24,113 +24,13 @@ const PDFDownloadLink = dynamic(
   }
 );
 
-// Example schema (you can import your schema from another file)
-// const schema: BlockType[] = [
-//   {
-//     type: "title",
-//     value: "AP Chemistry Assignment: Atomic Theory and Structure of Atoms",
-//     align: "center",
-//   },
-//   { type: "spacer", height: 20 },
-//   {
-//     type: "subtitle",
-//     value: "Section 1: Atomic Theory Overview",
-//     align: "left",
-//   },
-//   {
-//     type: "paragraph",
-//     value:
-//       "Atomic theory explains the nature of matter by stating that matter is composed of discrete units called atoms. This section will introduce you to the structure of atoms, electron configurations, periodic trends, and Coulomb’s law.",
-//   },
-//   { type: "spacer", height: 20 },
-//   { type: "subtitle", value: "Section 2: Structure of Atoms", align: "left" },
-//   {
-//     type: "paragraph",
-//     value:
-//       "Atoms consist of protons, neutrons, and electrons. The nucleus contains protons and neutrons, while electrons orbit around the nucleus in electron clouds.",
-//   },
-//   { id: "fbaidfnkd", type: "math", value: "Z = N + P", align: "center" },
-//   {
-//     type: "paragraph",
-//     value:
-//       "Where Z is the atomic number, N is the number of neutrons, and P is the number of protons.",
-//   },
-//   { type: "spacer", height: 20 },
-//   {
-//     type: "subtitle",
-//     value: "Section 3: Electron Configurations",
-//     align: "left",
-//   },
-//   {
-//     type: "paragraph",
-//     value:
-//       "Electron configurations describe the arrangement of electrons in an atom. Understanding these configurations is essential for predicting chemical behavior.",
-//   },
-//   {
-//     type: "text",
-//     label: "Write the electron configuration for Oxygen (O)",
-//     placeholder: "Enter your answer",
-//     helperText: "Use the format: 1s² 2s² 2p⁴",
-//     required: true,
-//   },
-//   { type: "spacer", height: 20 },
-//   { type: "subtitle", value: "Section 4: Periodic Trends", align: "left" },
-//   {
-//     type: "paragraph",
-//     value:
-//       "Periodic trends refer to patterns in the properties of elements across the periodic table. Important trends include atomic radius, electronegativity, and ionization energy.",
-//   },
-//   {
-//     type: "list",
-//     items: ["Atomic Radius", "Electronegativity", "Ionization Energy"],
-//     variant: "unordered",
-//   },
-//   { type: "spacer", height: 20 },
-//   { type: "subtitle", value: "Section 5: Coulomb’s Law", align: "left" },
-//   {
-//     type: "paragraph",
-//     value:
-//       "Coulomb’s Law describes the force between two charged particles. It states that the force is proportional to the product of the charges and inversely proportional to the square of the distance between them.",
-//   },
-//   {
-//     id: "1235214",
-//     type: "math",
-//     value: "F = k \\frac{|q_1 q_2|}{r^2}",
-//     align: "center",
-//   },
-//   {
-//     type: "paragraph",
-//     value:
-//       "Where F is the force between the charges, k is Coulomb's constant, q1 and q2 are the amounts of the charges, and r is the distance between them.",
-//   },
-//   { type: "spacer", height: 20 },
-//   {
-//     type: "subtitle",
-//     value: "Section 6: Reflection Questions",
-//     align: "left",
-//   },
-//   {
-//     type: "textarea",
-//     label: "Discuss how periodic trends affect chemical reactivity.",
-//     placeholder: "Type your explanation here",
-//     helperText: "Provide a clear and concise explanation.",
-//     required: true,
-//     rows: 3,
-//   },
-//   {
-//     type: "checkbox",
-//     label: "I have completed all sections of this assignment.",
-//     helperText: "Check if complete.",
-//     required: true,
-//   },
-// ];
-
 const styles = StyleSheet.create({
   page: {
     padding: 40,
     fontSize: 12,
     fontFamily: "Helvetica",
     flexDirection: "column",
+    marginVertical: 20,
   },
   title: {
     fontSize: 20,
@@ -173,9 +73,11 @@ const Math = ({ item }: { item: any }) => {
     width: number;
     height: number;
   } | null>(null);
+
   useEffect(() => {
     generateImage();
   }, []);
+
   const generateImage = () => {
     const element = document.getElementById(item.id);
     if (!element) return;
@@ -269,21 +171,14 @@ const Item = ({ item }: { item: any }) => {
 
 export default function PdfView({ schema }: { schema: BlockType[] }) {
   const [pdf, setPdf] = useState<any>(null);
+
   useEffect(() => {
     setPdf(PdfDocument({ schema }));
   }, [schema]);
-  const mathBlocks = useMemo(
-    () => schema.filter((item) => item.type === "math"),
-    [schema]
-  );
+
   return pdf ? (
     <div>
-      <div className="absolute -z-50">
-        {mathBlocks.map((item) => (
-          <MathBlock key={item.id} block={item as TMathBlock} />
-        ))}
-      </div>
-
+      <MathImages schema={schema} />
       <PDFViewer style={{ width: "100%", height: "100vh" }} showToolbar={false}>
         {pdf}
       </PDFViewer>
@@ -294,9 +189,23 @@ export default function PdfView({ schema }: { schema: BlockType[] }) {
   ) : null;
 }
 
+const MathImages = ({ schema }: { schema: BlockType[] }) => {
+  const mathBlocks = useMemo(
+    () => schema.filter((item) => item.type === "math"),
+    [schema]
+  );
+  return (
+    <div className="absolute -z-50">
+      {mathBlocks.map((item) => (
+        <MathBlock key={item.id} block={item as TMathBlock} />
+      ))}
+    </div>
+  );
+};
+
 const PdfDocument = ({ schema }: { schema: BlockType[] }) => {
   return (
-    <Document pageMode="fullScreen">
+    <Document>
       <Page style={styles.page} size="A4">
         {schema.map((item, idx) => (
           <Item item={item} key={idx} />

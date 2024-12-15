@@ -1,5 +1,6 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
+import { cn } from "@/lib/utils";
 
 export default function Draggable(props: {
   id: string;
@@ -13,7 +14,7 @@ export default function Draggable(props: {
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        opacity: 0.5,
+        opacity: 0.7,
       }
     : undefined;
 
@@ -24,7 +25,7 @@ export default function Draggable(props: {
       style={style}
       {...attributes}
       {...listeners}
-      className={props.className}
+      className={cn("bg-card", props.className)}
     >
       {props.children}
     </div>
