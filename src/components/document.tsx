@@ -2,7 +2,7 @@ import React from "react";
 import Draggable from "./draggable";
 import { Droppable, DroppableCatchAll } from "./droppable";
 import { BlockType } from "@/types";
-import Block from "./block";
+import Block from "./blocks";
 
 export default function Document({
   blocks,

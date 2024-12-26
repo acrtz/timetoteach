@@ -1,8 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { BlockEnum, BlockType } from "@/types";
-import { Label } from "./ui/label";
-import { Checkbox } from "./ui/checkbox";
+import { Label } from "../ui/label";
+import { Checkbox } from "../ui/checkbox";
 import { MathBlock } from "./math-block";
 
 const BlockWrapper = ({

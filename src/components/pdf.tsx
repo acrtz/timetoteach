@@ -11,7 +11,7 @@ import {
   Document,
 } from "@react-pdf/renderer";
 import * as htmlToImage from "html-to-image";
-import { MathBlock } from "@/components/math-block";
+import { MathBlock } from "@/components/blocks/math-block";
 import { BlockType, TMathBlock } from "@/types";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
@@ -124,8 +124,8 @@ const Item = ({ item }: { item: any }) => {
     case "list":
       return (
         <View wrap={false} style={{ marginBottom: 10 }}>
-          {item.items.map((listItem, liIdx) => (
-            <Text key={liIdx} style={styles.listItem}>
+          {item.items.map((listItem: string, index: number) => (
+            <Text key={index} style={styles.listItem}>
               • {listItem}
             </Text>
           ))}
@@ -162,8 +162,6 @@ const Item = ({ item }: { item: any }) => {
           )}
         </View>
       );
-    // Since we cannot create interactive fields in @react-pdf,
-    // we will just display the label and helper text.
     default:
       return null;
   }
