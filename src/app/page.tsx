@@ -17,12 +17,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { generateDocument } from "@/services/documents";
 import { useForm } from "react-hook-form";
 export default function Page() {
   const form = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+
+  const onSubmit = async (data: any) => {
+    console.log({ data });
+    await generateDocument(data.prompt);
   };
+
   return (
     <main>
       <Card className="w-[700px] max-w-[95vw] mt-12 mx-auto">
@@ -37,7 +41,7 @@ export default function Page() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="name"
+                name="prompt"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Prompt</FormLabel>
@@ -54,7 +58,7 @@ export default function Page() {
               />
               <Button type="submit" size="lg" className="block mx-auto">
                 Generate Document
-              </Button>
+              </Button>{" "}
             </form>
           </Form>
         </CardContent>
